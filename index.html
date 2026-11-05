@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="it" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Massimiliano Manzo | IT Help Desk & Cyber Security Specialist</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            900: '#0B0F19',
+                            800: '#0F172A',
+                            700: '#1E293B',
+                            accent: '#0284C7',
+                            neon: '#38BDF8',
+                            emerald: '#10B981',
+                            cyan: '#06B6D4'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0F19;
+            color: #E2E8F0;
+        }
+        .glow-effect {
+            box-shadow: 0 0 25px -5px rgba(56, 189, 248, 0.15);
+        }
+        .glow-effect-emerald {
+            box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.15);
+        }
+        .cyber-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .cyber-card:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.25);
+        }
+        .terminal-header {
+            background: linear-gradient(90deg, #1E293B 0%, #0F172A 100%);
+        }
+        .lang-btn.active {
+            background-color: #0284C7;
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyber-neon selection:text-cyber-900">
+
+    <!-- NAVIGATION BAR WITH LANGUAGE SWITCHER -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-cyber-900/80 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="inline-block w-3 h-3 rounded-full bg-cyber-neon animate-pulse"></span>
+                <span class="font-mono font-semibold text-slate-100 tracking-tight text-lg sm:text-xl">
+                    MM<span class="text-cyber-neon">.sec</span>
+                </span>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-300">
+                <a href="#about" class="hover:text-cyber-neon transition-colors" data-key="nav-about">Profilo</a>
+                <a href="#skills" class="hover:text-cyber-neon transition-colors" data-key="nav-skills">Competenze</a>
+                <a href="#experience" class="hover:text-cyber-neon transition-colors" data-key="nav-exp">Esperienza</a>
+                <a href="#education" class="hover:text-cyber-neon transition-colors" data-key="nav-edu">Certificazioni & Lab</a>
+                <a href="CV_Massimiliano_Manzo.pdf" download class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-cyber-neon/40 text-cyber-neon hover:bg-cyber-neon/10 transition-all font-mono text-xs">
+                    <i class="fa-solid fa-file-arrow-down"></i>
+                    <span data-key="nav-download">Scarica CV</span>
+                </a>
+                <a href="#contact" class="px-4 py-2 rounded-lg bg-cyber-accent hover:bg-sky-500 text-white font-semibold transition-all shadow-md hover:shadow-cyan-500/20" data-key="nav-contact">
+                    Contattami
+                </a>
+            </div>
+
+            <!-- Language Switcher & Mobile Menu Toggle -->
+            <div class="flex items-center gap-3">
+                <div class="inline-flex bg-slate-900/90 p-1 rounded-lg border border-slate-800 text-xs font-mono">
+                    <button onclick="setLanguage('it')" id="btn-it" class="lang-btn active px-2.5 py-1 rounded flex items-center gap-1 transition-all">
+                        🇮🇹 IT
+                    </button>
+                    <button onclick="setLanguage('en')" id="btn-en" class="lang-btn px-2.5 py-1 rounded text-slate-400 hover:text-white flex items-center gap-1 transition-all">
+                        🇬🇧 EN
+                    </button>
+                </div>
+
+                <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white p-2">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cyber-800 border-b border-slate-700 px-4 pt-2 pb-4 space-y-3 text-sm">
+            <a href="#about" class="block text-slate-300 hover:text-cyber-neon py-1" data-key="nav-about">Profilo</a>
+            <a href="#skills" class="block text-slate-300 hover:text-cyber-neon py-1" data-key="nav-skills">Competenze</a>
+            <a href="#experience" class="block text-slate-300 hover:text-cyber-neon py-1" data-key="nav-exp">Esperienza</a>
+            <a href="#education" class="block text-slate-300 hover:text-cyber-neon py-1" data-key="nav-edu">Certificazioni & Lab</a>
+            <a href="CV_Massimiliano_Manzo.pdf" download class="block text-center w-full py-2 rounded-lg border border-cyber-neon/40 text-cyber-neon font-mono text-xs">
+                <i class="fa-solid fa-file-arrow-down mr-1"></i> <span data-key="nav-download">Scarica CV</span>
+            </a>
+            <a href="#contact" class="block text-center w-full py-2 rounded-lg bg-cyber-accent text-white font-semibold" data-key="nav-contact">Contattami</a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-16 sm:space-y-24">
+
+        <!-- HERO / HEADER SECTION -->
+        <section id="about" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-4">
+            
+            <!-- Left Profile Avatar & Quick Status -->
+            <div class="lg:col-span-4 flex flex-col items-center text-center">
+                <div class="relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-cyber-accent to-cyber-emerald rounded-full blur opacity-75 group-hover:opacity-100 transition duration-500"></div>
+                    <div class="relative w-44 h-44 sm:w-52 sm:h-52 rounded-full overflow-hidden border-2 border-cyber-neon/50 bg-cyber-800 flex items-center justify-center glow-effect">
+                        <img src="FotoCv.jpg" 
+                             alt="Massimiliano Manzo" 
+                             class="profile-img w-full h-full object-cover rounded-full"
+                             onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Massimiliano+Manzo&background=0f172a&color=38bdf8&size=400';">
+                    </div>
+                </div>
+
+                <div class="mt-6 flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span data-key="hero-status">Disponibile per Ruoli IT Support & Cyber Security</span>
+                </div>
+            </div>
+
+            <!-- Right Profile Info -->
+            <div class="lg:col-span-8 space-y-6 text-left">
+                <div>
+                    <span class="text-cyber-neon font-mono text-sm tracking-wider uppercase font-semibold" data-key="hero-subtitle">Curriculum Vitae</span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mt-1">
+                        Massimiliano Manzo
+                    </h1>
+                    <h2 class="text-lg sm:text-2xl font-medium text-slate-300 mt-2 flex flex-wrap items-center gap-2">
+                        <span>IT Help Desk</span> 
+                        <span class="text-cyber-neon">&bull;</span> 
+                        <span>Cyber Security Specialist</span>
+                    </h2>
+                </div>
+
+                <!-- Summary -->
+                <p class="text-slate-300 leading-relaxed text-base sm:text-lg" data-key="hero-summary">
+                    Professionista con una solida e pluriennale esperienza nel Customer Service e Help Desk bancario di 1° livello (<strong class="text-white">BNL e BCC</strong>). Caratterizzato da eccellenti doti di problem solving, gestione dello stress e prevenzione delle minacce informatiche utente (phishing, sicurezza accessi). Attualmente in fase di forte transizione e specializzazione nell'ambito della <strong class="text-cyber-neon">Cybersecurity e IT Support</strong>, grazie a formazione specialistica (Forma.Temp con docenza Red Yard), laboratori pratici di pentesting (Home Lab con Kali Linux, Metasploitable e pfSense) e studio attivo mirato al conseguimento delle certificazioni <strong class="text-white">CompTIA Security+ e CompTIA PenTest+</strong>.
+                </p>
+
+                <!-- Quick Contact Grid Badge -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
+                    <a href="mailto:manzoma@gmail.com" class="flex items-center gap-3 p-3 rounded-xl bg-cyber-800/80 border border-slate-700/60 hover:border-cyber-neon transition-colors group">
+                        <div class="w-9 h-9 rounded-lg bg-cyber-accent/20 text-cyber-neon flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <div class="text-xs text-slate-400">Email</div>
+                            <div class="text-xs sm:text-sm font-semibold text-slate-200 truncate">manzoma@gmail.com</div>
+                        </div>
+                    </a>
+
+                    <a href="https://wa.me/393271127237" target="_blank" class="flex items-center gap-3 p-3 rounded-xl bg-cyber-800/80 border border-slate-700/60 hover:border-emerald-400 transition-colors group">
+                        <div class="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400" data-key="lbl-phone">Telefono</div>
+                            <div class="text-xs sm:text-sm font-semibold text-slate-200">+39 327 *****37</div>
+                        </div>
+                    </a>
+
+                    <div class="flex items-center gap-3 p-3 rounded-xl bg-cyber-800/80 border border-slate-700/60">
+                        <div class="w-9 h-9 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400" data-key="lbl-location">Residenza</div>
+                            <div class="text-xs sm:text-sm font-semibold text-slate-200" data-key="val-location">Oriolo Romano (VT)</div>
+                        </div>
+                    </div>
+
+                    <a href="https://t.me/manzoma67" target="_blank" class="flex items-center gap-3 p-3 rounded-xl bg-cyber-800/80 border border-slate-700/60 hover:border-cyber-neon transition-colors group">
+                        <div class="w-9 h-9 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-brands fa-telegram"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400">Telegram</div>
+                            <div class="text-xs sm:text-sm font-semibold text-slate-200">@manzoma67</div>
+                        </div>
+                    </a>
+
+                    <a href="https://wa.me/393271127237" target="_blank" class="flex items-center gap-3 p-3 rounded-xl bg-cyber-800/80 border border-slate-700/60 hover:border-emerald-400 transition-colors group">
+                        <div class="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400">WhatsApp</div>
+                            <div class="text-xs sm:text-sm font-semibold text-slate-200">@manzoma67</div>
+                        </div>
+                    </a>
+
+                    <div class="flex items-center gap-3 p-3 rounded-xl bg-cyber-800/80 border border-slate-700/60">
+                        <div class="w-9 h-9 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                            <i class="fa-solid fa-language"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400" data-key="lbl-lang">Lingua Inglese</div>
+                            <div class="text-xs sm:text-sm font-semibold text-slate-200" data-key="val-lang">Livello B1</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TECHNICAL SKILLS & TOOLCHAIN -->
+        <section id="skills" class="space-y-8">
+            <div class="border-l-4 border-cyber-neon pl-4">
+                <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight" data-key="skills-title">Competenze Tecniche & Toolchain</h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-1" data-key="skills-subtitle">Strumenti di sicurezza, ambienti virtuali, sistemi operativi e software gestionali.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Card 1: Security & Networking -->
+                <div class="cyber-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-sky-500/10 text-cyber-neon flex items-center justify-center text-xl mb-4 border border-sky-500/20">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Security & Networking</h3>
+                        <p class="text-slate-400 text-xs mb-4" data-key="card1-desc">Concetti di rete, firewalling, vulnerability assessment e penetration testing.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-sky-300 text-xs font-mono border border-slate-700">Kali Linux</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-sky-300 text-xs font-mono border border-slate-700">Nmap</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-sky-300 text-xs font-mono border border-slate-700">Metasploit</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-sky-300 text-xs font-mono border border-slate-700">Burp Suite</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-sky-300 text-xs font-mono border border-slate-700">Wireshark</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-sky-300 text-xs font-mono border border-slate-700">pfSense</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Virtualizzazione & Lab -->
+                <div class="cyber-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl mb-4 border border-emerald-500/20">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2" data-key="card2-title">Virtualizzazione & Lab</h3>
+                        <p class="text-slate-400 text-xs mb-4" data-key="card2-desc">Configurazione e gestione di laboratori virtuali per simulazione attacchi.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-emerald-300 text-xs font-mono border border-slate-700">Oracle VirtualBox</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-emerald-300 text-xs font-mono border border-slate-700">Metasploitable 2</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-emerald-300 text-xs font-mono border border-slate-700">Metasploitable 3</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-emerald-300 text-xs font-mono border border-slate-700" data-key="tag-target">Target Testing</span>
+                    </div>
+                </div>
+
+                <!-- Card 3: Sistemi & Container -->
+                <div class="cyber-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-xl mb-4 border border-purple-500/20">
+                            <i class="fa-solid fa-server"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2" data-key="card3-title">Sistemi & Container</h3>
+                        <p class="text-slate-400 text-xs mb-4" data-key="card3-desc">Ambienti client/server, containerizzazione e scripting base.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-purple-300 text-xs font-mono border border-slate-700">Windows Client/Server</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-purple-300 text-xs font-mono border border-slate-700">Linux (Ubuntu/Kali)</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-purple-300 text-xs font-mono border border-slate-700" data-key="tag-docker">Docker (Teorico)</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-purple-300 text-xs font-mono border border-slate-700">PowerShell</span>
+                    </div>
+                </div>
+
+                <!-- Card 4: Software & Gestionali -->
+                <div class="cyber-card p-6 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl mb-4 border border-amber-500/20">
+                            <i class="fa-solid fa-cubes"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2" data-key="card4-title">Software & Gestionali</h3>
+                        <p class="text-slate-400 text-xs mb-4" data-key="card4-desc">Sistemi di ticketing bancario, analisi dati e pacchetto Office avanzato.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-amber-300 text-xs font-mono border border-slate-700">BRAIN</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-amber-300 text-xs font-mono border border-slate-700">EXACT</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-amber-300 text-xs font-mono border border-slate-700">VISUAL PLUS</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-amber-300 text-xs font-mono border border-slate-700" data-key="tag-excel">Excel Avanzato</span>
+                        <span class="px-2.5 py-1 rounded-md bg-slate-800 text-amber-300 text-xs font-mono border border-slate-700">Ticketing HelpDesk</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- EXPERIENCE TIMELINE -->
+        <section id="experience" class="space-y-8">
+            <div class="border-l-4 border-cyber-neon pl-4">
+                <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight" data-key="exp-title">Esperienze Professionali</h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-1" data-key="exp-subtitle">Percorso solido nel supporto tecnico, banking e customer care ad alta criticità.</p>
+            </div>
+
+            <div class="relative border-l-2 border-slate-700/80 ml-3 sm:ml-6 space-y-10">
+                
+                <!-- Experience Item 1 -->
+                <div class="relative pl-6 sm:pl-10 group">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-cyber-neon border-4 border-cyber-900 group-hover:scale-125 transition-transform"></div>
+                    
+                    <div class="cyber-card p-6 rounded-2xl space-y-3">
+                        <div class="flex flex-wrap justify-between items-start gap-2">
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-bold text-white" data-key="exp1-role">Operatore Assistenza Clienti Inbound (Home Banking & Banca Digitale)</h3>
+                                <div class="text-cyber-neon font-semibold text-sm">BNL (Banca Nazionale del Lavoro) & Hello Bank!</div>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-slate-800 text-slate-300 font-mono text-xs border border-slate-700">01/2020 &mdash; 04/2026</span>
+                        </div>
+                        
+                        <ul class="space-y-2 text-slate-300 text-sm list-disc pl-4" data-key="exp1-list">
+                            <li>Fornitura di supporto help desk di 1° livello su piattaforme di Home Banking e Banca Digitale (Web & App).</li>
+                            <li>Gestione di problematiche complesse riguardanti sicurezza accessi, OTP, credenziali e operazioni dispositive (Bonifici, SDD, MAV/RAV, F23/F24).</li>
+                            <li>Supporto e consulenza diretta agli utenti per la prevenzione e gestione di criticità di sicurezza informatica (phishing, sblocco utenze, rilevamento anomalie di accesso).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Experience Item 2 -->
+                <div class="relative pl-6 sm:pl-10 group">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-cyber-accent border-4 border-cyber-900 group-hover:scale-125 transition-transform"></div>
+                    
+                    <div class="cyber-card p-6 rounded-2xl space-y-3">
+                        <div class="flex flex-wrap justify-between items-start gap-2">
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-bold text-white" data-key="exp2-role">Operatore Assistenza Clienti Inbound - Gestione Carte</h3>
+                                <div class="text-cyber-neon font-semibold text-sm">ICCREA Banca Spa (presso RBS - Retail Banking Services)</div>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-slate-800 text-slate-300 font-mono text-xs border border-slate-700">09/2019 &mdash; 12/2019</span>
+                        </div>
+                        
+                        <ul class="space-y-2 text-slate-300 text-sm list-disc pl-4" data-key="exp2-list">
+                            <li>Assistenza specialistica sui prodotti carte di credito, bancomat e carte prepagate.</li>
+                            <li>Operatività tecnica e di sicurezza: abilitazione pagamenti estero, blocco/sblocco immediato per frode o smarrimento, sospensione e riattivazione utenze.</li>
+                            <li>Utilizzo quotidiano intensivo dei gestionali dedicati <strong>BRAIN</strong>, <strong>EXACT</strong> e <strong>VISUAL PLUS</strong>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Experience Item 3 -->
+                <div class="relative pl-6 sm:pl-10 group">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-slate-600 border-4 border-cyber-900 group-hover:scale-125 transition-transform"></div>
+                    
+                    <div class="cyber-card p-6 rounded-2xl space-y-3">
+                        <div class="flex flex-wrap justify-between items-start gap-2">
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-bold text-white" data-key="exp3-role">Precedenti Esperienze in Customer Service & Supporto Tecnico</h3>
+                                <div class="text-slate-400 font-semibold text-sm">Q8 Spa, ILIAD, Infocamere, Settore Amministrativo</div>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-slate-800 text-slate-400 font-mono text-xs border border-slate-700" data-key="exp3-date">Anni Precedenti</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-slate-300 pt-2" data-key="exp3-grid">
+                            <div class="p-3 bg-slate-800/40 rounded-xl border border-slate-800">
+                                <span class="font-bold text-white block">Q8 Spa</span>
+                                Supporto tecnico su terminali self-service, card carburante e app mobile.
+                            </div>
+                            <div class="p-3 bg-slate-800/40 rounded-xl border border-slate-800">
+                                <span class="font-bold text-white block">ILIAD</span>
+                                Assistenza tecnico-amministrativa per configurazione smartphone, connettività dati e account.
+                            </div>
+                            <div class="p-3 bg-slate-800/40 rounded-xl border border-slate-800">
+                                <span class="font-bold text-white block">Infocamere</span>
+                                Risoluzione inbound di problematiche amministrative e tecniche dell'utenza.
+                            </div>
+                            <div class="p-3 bg-slate-800/40 rounded-xl border border-slate-800">
+                                <span class="font-bold text-white block">Carservice & Amministrazione</span>
+                                Gestione operativa, contabile e cura del cliente in contesti aziendali strutturati.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CERTIFICATIONS, FORMAZIONE & HTB BADGES -->
+        <section id="education" class="space-y-8">
+            <div class="border-l-4 border-cyber-neon pl-4">
+                <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight" data-key="edu-title">Formazione, Certificazioni & Home Lab</h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-1" data-key="edu-subtitle">Percorso di specializzazione continua in Cyber Security e Pentesting.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Left: Formal Education & Certifications -->
+                <div class="space-y-6">
+                    
+                    <!-- Certifications in Progress -->
+                    <div class="cyber-card p-6 rounded-2xl border-l-4 border-l-cyber-neon">
+                        <div class="flex items-center gap-3 mb-3">
+                            <i class="fa-solid fa-certificate text-cyber-neon text-2xl"></i>
+                            <div>
+                                <h3 class="text-lg font-bold text-white" data-key="cert-title">Certificazioni Professionali in Corso</h3>
+                                <div class="text-xs text-cyber-neon font-mono" data-key="cert-target">Obiettivo 2026</div>
+                            </div>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-300" data-key="cert-list">
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-spinner animate-spin text-cyber-neon text-xs"></i>
+                                <span><strong>CompTIA Security+</strong> (Studio ed esercitazione attiva)</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-spinner animate-spin text-cyber-neon text-xs"></i>
+                                <span><strong>CompTIA PenTest+</strong> (Approfondimento ethical hacking)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Forma.Temp Course -->
+                    <div class="cyber-card p-6 rounded-2xl">
+                        <div class="flex items-center gap-3 mb-3">
+                            <i class="fa-solid fa-graduation-cap text-emerald-400 text-2xl"></i>
+                            <div>
+                                <h3 class="text-lg font-bold text-white" data-key="course-title">Formazione Specialistica Cyber Security</h3>
+                                <div class="text-xs text-emerald-400 font-mono" data-key="course-meta">Forma.Temp | Docenza Red Yard (07/2026 - 09/2026)</div>
+                            </div>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed" data-key="course-desc">
+                            Corso intensivo di <strong>100 ore teorico-pratiche</strong> diretto dal <i>Dott. Marcellino Mauriello</i>. Trattazione dei fondamenti di sicurezza informatica, tecniche di attacco/difesa e laboratori pratici guidati.
+                        </p>
+                    </div>
+
+                    <!-- Precedente Formazione Accademica -->
+                    <div class="cyber-card p-6 rounded-2xl">
+                        <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-book text-slate-400"></i> <span data-key="academic-title">Altro Percorso Formativo</span>
+                        </h3>
+                        <ul class="space-y-2 text-xs sm:text-sm text-slate-300" data-key="academic-list">
+                            <li>&bull; <strong>Corso Programmatore Java:</strong> Netgroup Spa (2019)</li>
+                            <li>&bull; <strong>Studi Universitari:</strong> Economia e Commercio ("La Sapienza", Roma)</li>
+                            <li>&bull; <strong>Diploma di Maturità:</strong> Scientifica</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- Right: Hack The Box & Home Lab Setup -->
+                <div class="space-y-6">
+                    
+                    <!-- Hack The Box Badges Card -->
+                    <div class="cyber-card p-6 rounded-2xl">
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-cube text-emerald-400"></i> <span data-key="htb-title">Badge & Moduli Pratici Hack The Box</span>
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="p-3 bg-slate-900/80 rounded-xl border border-emerald-500/30 flex items-center gap-3">
+                                <i class="fa-solid fa-database text-emerald-400 text-lg"></i>
+                                <div>
+                                    <div class="text-xs font-bold text-white">SQL Injection</div>
+                                    <div class="text-[10px] text-slate-400">Fundamentals</div>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-slate-900/80 rounded-xl border border-emerald-500/30 flex items-center gap-3">
+                                <i class="fa-solid fa-terminal text-emerald-400 text-lg"></i>
+                                <div>
+                                    <div class="text-xs font-bold text-white">Metasploit</div>
+                                    <div class="text-[10px] text-slate-400">Framework Module</div>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-slate-900/80 rounded-xl border border-emerald-500/30 flex items-center gap-3">
+                                <i class="fa-solid fa-sitemap text-emerald-400 text-lg"></i>
+                                <div>
+                                    <div class="text-xs font-bold text-white">Active Directory</div>
+                                    <div class="text-[10px] text-slate-400">& Kerberoasting</div>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-slate-900/80 rounded-xl border border-emerald-500/30 flex items-center gap-3">
+                                <i class="fa-solid fa-code text-emerald-400 text-lg"></i>
+                                <div>
+                                    <div class="text-xs font-bold text-white">PowerShell</div>
+                                    <div class="text-[10px] text-slate-400">Fundamentals</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Home Lab Architecture Card -->
+                    <div class="cyber-card p-6 rounded-2xl relative overflow-hidden">
+                        <div class="terminal-header -mx-6 -mt-6 p-3 px-6 border-b border-slate-700/60 flex items-center justify-between mb-4">
+                            <span class="font-mono text-xs text-cyber-neon flex items-center gap-2">
+                                <i class="fa-solid fa-laptop-code"></i> VirtualBox Home Lab Environment
+                            </span>
+                            <div class="flex gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500 inline-block"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-green-500 inline-block"></span>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-slate-300 leading-relaxed mb-4" data-key="homelab-desc">
+                            Creazione e gestione autonoma di un ambiente di attacco/difesa virtualizzato su VirtualBox:
+                        </p>
+
+                        <div class="space-y-2 font-mono text-xs">
+                            <div class="p-2 rounded bg-slate-900/90 text-sky-300 border border-slate-800 flex justify-between">
+                                <span>[Attacker] Kali Linux</span>
+                                <span class="text-slate-500">Pentesting OS</span>
+                            </div>
+                            <div class="p-2 rounded bg-slate-900/90 text-rose-300 border border-slate-800 flex justify-between">
+                                <span>[Target] Metasploitable 2 & 3</span>
+                                <span class="text-slate-500" data-key="target-label">Vulnerable Targets</span>
+                            </div>
+                            <div class="p-2 rounded bg-slate-900/90 text-emerald-300 border border-slate-800 flex justify-between">
+                                <span>[Firewall] pfSense</span>
+                                <span class="text-slate-500" data-key="firewall-label">Traffic Routing & Filtering</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SOFT SKILLS SECTION -->
+        <section class="space-y-8">
+            <div class="border-l-4 border-cyber-neon pl-4">
+                <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight" data-key="soft-title">Qualità Personali & Soft Skills</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="cyber-card p-6 rounded-2xl">
+                    <div class="w-10 h-10 rounded-lg bg-sky-500/10 text-cyber-neon flex items-center justify-center text-lg mb-3">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3 class="font-bold text-white mb-2" data-key="soft1-title">Problem Solving & Analisi</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed" data-key="soft1-desc">Approccio metodico e analitico nella scomposizione e risoluzione tempestiva di criticità tecniche e relazionali complesse.</p>
+                </div>
+
+                <div class="cyber-card p-6 rounded-2xl">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg mb-3">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3 class="font-bold text-white mb-2" data-key="soft2-title">Orientamento al Cliente</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed" data-key="soft2-desc">Spiccata empatia, ascolto attivo e chiarezza comunicativa maturata in anni di assistenza diretta al pubblico in contesti bancari ad alta pressione.</p>
+                </div>
+
+                <div class="cyber-card p-6 rounded-2xl">
+                    <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg mb-3">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <h3 class="font-bold text-white mb-2" data-key="soft3-title">Proattività & Curiosità Formativa</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed" data-key="soft3-desc">Forte motivazione all'aggiornamento continuo e passione autodidatta nello studio delle tecnologie di rete e della sicurezza offensiva/difensiva.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT & FOOTER CTA -->
+        <section id="contact" class="cyber-card p-8 sm:p-12 rounded-3xl text-center space-y-6 relative overflow-hidden glow-effect">
+            <div class="max-w-2xl mx-auto space-y-4">
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight" data-key="cta-title">Mettiamoci in Contatto</h2>
+                <p class="text-slate-300 text-sm sm:text-base" data-key="cta-desc">
+                    Sei interessato ad inserire nel tuo team una figura IT Help Desk con competenze verticali in Cyber Security?
+                </p>
+
+                <div class="flex flex-wrap justify-center gap-4 pt-4">
+                    <a href="CV_Massimiliano_Manzo.pdf" download class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-cyber-neon/50 text-cyber-neon font-semibold transition-all flex items-center gap-2 shadow-lg shadow-cyan-500/10">
+                        <i class="fa-solid fa-file-arrow-down"></i> <span data-key="nav-download">Scarica CV</span>
+                    </a>
+                    <a href="mailto:manzoma@gmail.com" class="px-6 py-3 rounded-xl bg-cyber-accent hover:bg-sky-500 text-white font-semibold transition-all flex items-center gap-2 shadow-lg shadow-sky-500/20">
+                        <i class="fa-solid fa-envelope"></i> <span data-key="btn-email">Inviami un'Email</span>
+                    </a>
+                    <a href="https://wa.me/393271127237" target="_blank" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-all flex items-center gap-2 shadow-lg shadow-emerald-500/20">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp (@manzoma67)
+                    </a>
+                    <a href="https://t.me/manzoma67" target="_blank" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-semibold transition-all flex items-center gap-2">
+                        <i class="fa-brands fa-telegram"></i> Telegram (@manzoma67)
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800 bg-cyber-900 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div>
+                &copy; 2026 Massimiliano Manzo &bull; IT Help Desk & Cyber Security Specialist
+            </div>
+            <div class="text-[11px] text-slate-600" data-key="gdpr-text">
+                Autorizzo il trattamento dei miei dati personali ai sensi del D.Lgs. 196/2003 e del GDPR (UE 2016/679).
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT & MULTI-LANGUAGE TRANSLATIONS -->
+    <script>
+        // Mobile Navigation Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Dictionary for IT / EN Translation
+        const translations = {
+            it: {
+                "nav-about": "Profilo",
+                "nav-skills": "Competenze",
+                "nav-exp": "Esperienza",
+                "nav-edu": "Certificazioni & Lab",
+                "nav-download": "Scarica CV",
+                "nav-contact": "Contattami",
+                "hero-status": "Disponibile per Ruoli IT Support & Cyber Security",
+                "hero-subtitle": "Curriculum Vitae",
+                "hero-summary": "Professionista con una solida e pluriennale esperienza nel Customer Service e Help Desk bancario di 1° livello (<strong class=\"text-white\">BNL e BCC</strong>). Caratterizzato da eccellenti doti di problem solving, gestione dello stress e prevenzione delle minacce informatiche utente (phishing, sicurezza accessi). Attualmente in fase di forte transizione e specializzazione nell'ambito della <strong class=\"text-cyber-neon\">Cybersecurity e IT Support</strong>, grazie a formazione specialistica (Forma.Temp con docenza Red Yard), laboratori pratici di pentesting (Home Lab con Kali Linux, Metasploitable e pfSense) e studio attivo mirato al conseguimento delle certificazioni <strong class=\"text-white\">CompTIA Security+ e CompTIA PenTest+</strong>.",
+                "lbl-phone": "Telefono",
+                "lbl-location": "Residenza",
+                "val-location": "Oriolo Romano (VT)",
+                "lbl-lang": "Lingua Inglese",
+                "val-lang": "Livello B1",
+                "skills-title": "Competenze Tecniche & Toolchain",
+                "skills-subtitle": "Strumenti di sicurezza, ambienti virtuali, sistemi operativi e software gestionali.",
+                "card1-desc": "Concetti di rete, firewalling, vulnerability assessment e penetration testing.",
+                "card2-title": "Virtualizzazione & Lab",
+                "card2-desc": "Configurazione e gestione di laboratori virtuali per simulazione attacchi.",
+                "tag-target": "Target Testing",
+                "card3-title": "Sistemi & Container",
+                "card3-desc": "Ambienti client/server, containerizzazione e scripting base.",
+                "tag-docker": "Docker (Teorico)",
+                "card4-title": "Software & Gestionali",
+                "card4-desc": "Sistemi di ticketing bancario, analisi dati e pacchetto Office avanzato.",
+                "tag-excel": "Excel Avanzato",
+                "exp-title": "Esperienze Professionali",
+                "exp-subtitle": "Percorso solido nel supporto tecnico, banking e customer care ad alta criticità.",
+                "exp1-role": "Operatore Assistenza Clienti Inbound (Home Banking & Banca Digitale)",
+                "exp1-list": "<li>Fornitura di supporto help desk di 1° livello su piattaforme di Home Banking e Banca Digitale (Web & App).</li><li>Gestione di problematiche complesse riguardanti sicurezza accessi, OTP, credenziali e operazioni dispositive (Bonifici, SDD, MAV/RAV, F23/F24).</li><li>Supporto e consulenza diretta agli utenti per la prevenzione e gestione di criticità di sicurezza informatica (phishing, sblocco utenze, rilevamento anomalie di accesso).</li>",
+                "exp2-role": "Operatore Assistenza Clienti Inbound - Gestione Carte",
+                "exp2-list": "<li>Assistenza specialistica sui prodotti carte di credito, bancomat e carte prepagate.</li><li>Operatività tecnica e di sicurezza: abilitazione pagamenti estero, blocco/sblocco immediato per frode o smarrimento, sospensione e riattivazione utenze.</li><li>Utilizzo quotidiano intensivo dei gestionali dedicati <strong>BRAIN</strong>, <strong>EXACT</strong> e <strong>VISUAL PLUS</strong>.</li>",
+                "exp3-role": "Precedenti Esperienze in Customer Service & Supporto Tecnico",
+                "exp3-date": "Anni Precedenti",
+                "exp3-grid": "<div class=\"p-3 bg-slate-800/40 rounded-xl border border-slate-800\"><span class=\"font-bold text-white block\">Q8 Spa</span>Supporto tecnico su terminali self-service, card carburante e app mobile.</div><div class=\"p-3 bg-slate-800/40 rounded-xl border border-slate-800\"><span class=\"font-bold text-white block\">ILIAD</span>Assistenza tecnico-amministrativa per configurazione smartphone, connettività dati e account.</div><div class=\"p-3 bg-slate-800/40 rounded-xl border border-slate-800\"><span class=\"font-bold text-white block\">Infocamere</span>Risoluzione inbound di problematiche amministrative e tecniche dell'utenza.</div><div class=\"p-3 bg-slate-800/40 rounded-xl border border-slate-800\"><span class=\"font-bold text-white block\">Carservice & Amministrazione</span>Gestione operativa, contabile e cura del cliente in contesti aziendali strutturati.</div>",
+                "edu-title": "Formazione, Certificazioni & Home Lab",
+                "edu-subtitle": "Percorso di specializzazione continua in Cyber Security e Pentesting.",
+                "cert-title": "Certificazioni Professionali in Corso",
+                "cert-target": "Obiettivo 2026",
+                "cert-list": "<li class=\"flex items-center gap-2\"><i class=\"fa-solid fa-spinner animate-spin text-cyber-neon text-xs\"></i><span><strong>CompTIA Security+</strong> (Studio ed esercitazione attiva)</span></li><li class=\"flex items-center gap-2\"><i class=\"fa-solid fa-spinner animate-spin text-cyber-neon text-xs\"></i><span><strong>CompTIA PenTest+</strong> (Approfondimento ethical hacking)</span></li>",
+                "course-title": "Formazione Specialistica Cyber Security",
+                "course-meta": "Forma.Temp | Docenza Red Yard (07/2026 - 09/2026)",
+                "course-desc": "Corso intensivo di <strong>100 ore teorico-pratiche</strong> diretto dal <i>Dott. Marcellino Mauriello</i>. Trattazione dei fondamenti di sicurezza informatica, tecniche di attacco/difesa e laboratori pratici guidati.",
+                "academic-title": "Altro Percorso Formativo",
+                "academic-list": "<li>&bull; <strong>Corso Programmatore Java:</strong> Netgroup Spa (2019)</li><li>&bull; <strong>Studi Universitari:</strong> Economia e Commercio (\"La Sapienza\", Roma)</li><li>&bull; <strong>Diploma di Maturità:</strong> Scientifica</li>",
+                "htb-title": "Badge & Moduli Pratici Hack The Box",
+                "homelab-desc": "Creazione e gestione autonoma di un ambiente di attacco/difesa virtualizzato su VirtualBox:",
+                "target-label": "Vulnerable Targets",
+                "firewall-label": "Traffic Routing & Filtering",
+                "soft-title": "Qualità Personali & Soft Skills",
+                "soft1-title": "Problem Solving & Analisi",
+                "soft1-desc": "Approccio metodico e analitico nella scomposizione e risoluzione tempestiva di criticità tecniche e relazionali complesse.",
+                "soft2-title": "Orientamento al Cliente",
+                "soft2-desc": "Spiccata empatia, ascolto attivo e chiarezza comunicativa maturata in anni di assistenza diretta al pubblico in contesti bancari ad alta pressione.",
+                "soft3-title": "Proattività & Curiosità Formativa",
+                "soft3-desc": "Forte motivazione all'aggiornamento continuo e passione autodidatta nello studio delle tecnologie di rete e della sicurezza offensiva/difensiva.",
+                "cta-title": "Mettiamoci in Contatto",
+                "cta-desc": "Sei interessato ad inserire nel tuo team una figura IT Help Desk con competenze verticali in Cyber Security?",
+                "btn-email": "Inviami un'Email",
+                "gdpr-text": "Autorizzo il trattamento dei miei dati personali ai sensi del D.Lgs. 196/2003 e del GDPR (UE 2016/679)."
+            },
+            en: {
+                "nav-about": "Profile",
+                "nav-skills": "Skills",
+                "nav-exp": "Experience",
+                "nav-edu": "Certifications & Lab",
+                "nav-download": "Download CV",
+                "nav-contact": "Contact Me",
+                "hero-status": "Available for IT Support & Cyber Security Roles",
+                "hero-subtitle": "Curriculum Vitae",
+                "hero-summary": "Professional with solid, multi-year experience in Tier 1 Customer Service and Banking Help Desk (<strong class=\"text-white\">BNL & BCC</strong>). Recognized for strong problem-solving skills, stress management, and user security threat prevention (phishing, access control). Currently actively transitioning into <strong class=\"text-cyber-neon\">Cybersecurity and IT Support</strong>, supported by specialized training (Forma.Temp led by Red Yard consulting), hands-on pentesting labs (Home Lab with Kali Linux, Metasploitable, and pfSense), and active preparation for <strong class=\"text-white\">CompTIA Security+ and CompTIA PenTest+</strong> certifications.",
+                "lbl-phone": "Phone",
+                "lbl-location": "Location",
+                "val-location": "Oriolo Romano (VT), Italy",
+                "lbl-lang": "English Proficiency",
+                "val-lang": "B1 Level",
+                "skills-title": "Technical Skills & Toolchain",
+                "skills-subtitle": "Security tools, virtual environments, operating systems, and enterprise software.",
+                "card1-desc": "Networking fundamentals, firewalling, vulnerability assessment, and penetration testing.",
+                "card2-title": "Virtualization & Labs",
+                "card2-desc": "Configuration and deployment of virtual labs for attack simulation.",
+                "tag-target": "Target Testing",
+                "card3-title": "Systems & Containers",
+                "card3-desc": "Client/server environments, containerization, and foundational scripting.",
+                "tag-docker": "Docker (Theoretical)",
+                "card4-title": "Software & Enterprise Tools",
+                "card4-desc": "Banking ticketing systems, data analysis, and advanced MS Office suite.",
+                "tag-excel": "Advanced Excel",
+                "exp-title": "Professional Experience",
+                "exp-subtitle": "Solid track record in technical support, banking, and critical customer care.",
+                "exp1-role": "Inbound Customer Support & Tier-1 Help Desk (Digital Banking)",
+                "exp1-list": "<li>Provided Tier-1 technical help desk support across Online Banking and Mobile App platforms.</li><li>Handled complex user cases regarding access security, OTPs, credentials, and transactional procedures (Wire transfers, Direct Debits, Bill Payments).</li><li>Provided direct guidance on cybersecurity best practices, user account recovery, and phishing mitigation.</li>",
+                "exp2-role": "Inbound Customer Support Specialist - Card Management",
+                "exp2-list": "<li>Specialized support for credit, debit, and prepaid card products.</li><li>Security & technical operations: international payment authorization, immediate card locking/unlocking due to fraud or loss, account suspensions and reactivations.</li><li>Daily intensive operation of enterprise management platforms <strong>BRAIN</strong>, <strong>EXACT</strong>, and <strong>VISUAL PLUS</strong>.</li>",
+                "exp3-role": "Previous Customer Service & Technical Support Roles",
+                "exp3-date": "Previous Years",
+                "exp3-grid": "<div class=\"p-3 bg-slate-800/40 rounded-xl border border-slate-800\"><span class=\"font-bold text-white block\">Q8 Spa</span>Technical support for self-service terminals, fuel cards, and mobile app.</div><div class=\"p-3 bg-slate-800/40 rounded-xl border border-slate-800\"><span class=\"font-bold text-white block\">ILIAD</span>Technical-administrative support for smartphone setup, data connectivity, and accounts.</div><div class=\"p-3 bg-slate-800/40 rounded-xl border border-slate-800\"><span class=\"font-bold text-white block\">Infocamere</span>Inbound resolution of administrative and technical end-user requests.</div><div class=\"p-3 bg-slate-800/40 rounded-xl border border-slate-800\"><span class=\"font-bold text-white block\">Carservice & Admin</span>Operational, accounting, and customer care management in structured corporate settings.</div>",
+                "edu-title": "Education, Certifications & Home Lab",
+                "edu-subtitle": "Continuous specialization journey in Cybersecurity and Penetration Testing.",
+                "cert-title": "Professional Certifications in Progress",
+                "cert-target": "Target 2026",
+                "cert-list": "<li class=\"flex items-center gap-2\"><i class=\"fa-solid fa-spinner animate-spin text-cyber-neon text-xs\"></i><span><strong>CompTIA Security+</strong> (Active study & exam practice)</span></li><li class=\"flex items-center gap-2\"><i class=\"fa-solid fa-spinner animate-spin text-cyber-neon text-xs\"></i><span><strong>CompTIA PenTest+</strong> (Ethical hacking specialization)</span></li>",
+                "course-title": "Specialized Cybersecurity Training",
+                "course-meta": "Forma.Temp | Delivered by Red Yard (07/2026 - 09/2026)",
+                "course-desc": "Intensive <strong>100-hour theoretical-practical course</strong> taught by <i>Dr. Marcellino Mauriello</i>. Covered cybersecurity fundamentals, attack/defense techniques, and guided practical labs.",
+                "academic-title": "Other Educational Background",
+                "academic-list": "<li>&bull; <strong>Java Developer Course:</strong> Netgroup Spa (2019)</li><li>&bull; <strong>University Studies:</strong> Economics & Commerce (\"La Sapienza\", Rome)</li><li>&bull; <strong>High School Diploma:</strong> Scientific Stream</li>",
+                "htb-title": "Hack The Box Badges & Practical Modules",
+                "homelab-desc": "Design and autonomous management of a virtualized attack/defense lab environment on VirtualBox:",
+                "target-label": "Vulnerable Targets",
+                "firewall-label": "Traffic Routing & Filtering",
+                "soft-title": "Personal Attributes & Soft Skills",
+                "soft1-title": "Problem Solving & Analysis",
+                "soft1-desc": "Methodical and analytical approach to dissecting and resolving complex technical and interpersonal challenges promptly.",
+                "soft2-title": "Customer Orientation",
+                "soft2-desc": "High empathy, active listening, and clear communication developed over years of direct client assistance in high-pressure banking environments.",
+                "soft3-title": "Proactivity & Lifelong Learning",
+                "soft3-desc": "Strong motivation for continuous learning and self-taught passion for network technologies, offensive, and defensive security.",
+                "cta-title": "Let's Connect",
+                "cta-desc": "Are you looking to add an IT Help Desk professional with focused Cybersecurity skills to your team?",
+                "btn-email": "Send Me an Email",
+                "gdpr-text": "I authorize the processing of my personal data under Legislative Decree 196/2003 and GDPR (EU 2016/679)."
+            }
+        };
+
+        function setLanguage(lang) {
+    // 1. Aggiorna tutti i testi tradotti
+    document.querySelectorAll('[data-key]').forEach(elem => {
+        const key = elem.getAttribute('data-key');
+        if (translations[lang] && translations[lang][key]) {
+            elem.innerHTML = translations[lang][key];
+        }
+    });
+
+    // 2. Aggiorna i link per il download del CV in base alla lingua scelta
+    const pdfUrl = lang === 'it' ? 'CV_Massimiliano_Manzo_IT.pdf' : 'CV_Massimiliano_Manzo_EN.pdf';
+    
+    // Assegna il file PDF corretto a tutti i pulsanti di download presenti nella pagina
+    document.querySelectorAll('a[download]').forEach(btn => {
+        btn.setAttribute('href', pdfUrl);
+    });
+
+    // 3. Aggiorna lo stato visivo dei pulsanti di lingua IT / EN
+    if (lang === 'it') {
+        document.getElementById('btn-it').classList.add('active');
+        document.getElementById('btn-it').classList.remove('text-slate-400');
+        document.getElementById('btn-en').classList.remove('active');
+        document.getElementById('btn-en').classList.add('text-slate-400');
+        document.documentElement.lang = 'it';
+    } else {
+        document.getElementById('btn-en').classList.add('active');
+        document.getElementById('btn-en').classList.remove('text-slate-400');
+        document.getElementById('btn-it').classList.remove('active');
+        document.getElementById('btn-it').classList.add('text-slate-400');
+        document.documentElement.lang = 'en';
+    }
+}
+
+// Esegui una prima impostazione automatica al caricamento
+document.addEventListener('DOMContentLoaded', () => {
+    setLanguage('it');
+});
+    </script>
+</body>
+</html>
